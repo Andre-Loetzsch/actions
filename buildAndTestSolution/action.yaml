@@ -28,8 +28,3 @@ runs:
     - name: 'dotnet test'
       shell: bash
       run: dotnet test "${{ inputs.solution }}"
-    
-    - name: 'Push package'
-      shell: bash
-      run: dotnet nuget push "${{ inputs.outdir }}\*.nupkg" -k ${{ inputs.github_token }} -s "https://nuget.pkg.github.com/Andre-Loetzsch/index.json" --skip-duplicate
-      # nuget push <NAME_OF_YOUR_PACKAGE>.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
