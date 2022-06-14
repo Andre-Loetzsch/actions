@@ -1,0 +1,15 @@
+name: addGitHubToNugetSource
+description: "add github to nuget source"
+
+inputs:
+  github_token:
+    description: 'github_token'
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'nuget add source'
+      shell: bash
+      run: dotnet nuget add source --username "Andre-Loetzsch" --password ${{ inputs.github_token }} --store-password-in-clear-text --name github "https://nuget.pkg.github.com/Andre-Loetzsch/index.json"

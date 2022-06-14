@@ -1,0 +1,19 @@
+name: pushNugetPackages
+description: 'pushed nuget packages to github'
+
+inputs:
+  outdir:
+    required: true
+    description: 'bin output dir'
+    type: string
+  github_token:
+    description: 'github_token'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Push nuget packages'
+      shell: bash
+      run: dotnet nuget push "${{ inputs.outdir }}\*.nupkg" -k ${{ inputs.github_token }} -s "https://nuget.pkg.github.com/Andre-Loetzsch/index.json" --skip-duplicate
+      # nuget push <NAME_OF_YOUR_PACKAGE>.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"

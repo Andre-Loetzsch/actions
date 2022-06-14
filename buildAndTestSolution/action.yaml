@@ -1,0 +1,35 @@
+name: bildAndTestSolution
+description: 'build and test dotnet solution'
+
+inputs:
+  solution:
+    required: true
+    description: 'path to the solution file'
+    type: string
+  version-suffix:
+    required: true
+    description: 'the version suffix'
+    type: string
+  outdir:
+    required: true
+    description: 'bin output dir'
+    type: string
+  github_token:
+    description: 'github_token'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'dotnet build'
+      shell: bash
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --output "${{ inputs.outdir }}"
+
+    - name: 'dotnet test'
+      shell: bash
+      run: dotnet test "${{ inputs.solution }}"
+    
+    - name: 'Push package'
+      shell: bash
+      run: dotnet nuget push "${{ inputs.outdir }}\*.nupkg" -k ${{ inputs.github_token }} -s "https://nuget.pkg.github.com/Andre-Loetzsch/index.json" --skip-duplicate
+      # nuget push <NAME_OF_YOUR_PACKAGE>.nupkg -Source "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
