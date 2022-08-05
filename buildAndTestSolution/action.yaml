@@ -22,7 +22,7 @@ runs:
   using: "composite"
   steps:
 
- - name: 'test branch dir'
+    - name: 'test branch dir'
       shell: bash
       run: ls D:/a/tentakel/tentakel/.git/refs/heads
   
