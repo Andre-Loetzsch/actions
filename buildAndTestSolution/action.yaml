@@ -21,6 +21,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+
+ - name: 'test branch dir'
+      shell: bash
+      run: ls D:/a/tentakel/tentakel/.git/refs/heads
+  
     - name: 'dotnet build without version-suffix'
       shell: bash
       if: ${{ inputs.version-suffix  == '' }}
