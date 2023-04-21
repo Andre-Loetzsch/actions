@@ -10,10 +10,6 @@ inputs:
     required: true
     description: 'the version suffix'
     type: string
-  outdir:
-    required: true
-    description: 'bin output dir'
-    type: string
   github_token:
     description: 'github_token'
     required: true
@@ -24,12 +20,12 @@ runs:
     - name: 'dotnet build without version-suffix'
       shell: bash
       if: ${{ inputs.version-suffix  == '' }}
-      run: dotnet build "${{ inputs.solution }}" --configuration Release --output "${{ inputs.outdir }}"
+      run: dotnet build "${{ inputs.solution }}" --configuration Release"
 
     - name: 'dotnet build with version-suffix: ${{ inputs.version-suffix }}'
       shell: bash
       if: ${{ inputs.version-suffix != '' }} 
-      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --output "${{ inputs.outdir }}"
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }}"
 
     - name: 'dotnet test'
       shell: bash
