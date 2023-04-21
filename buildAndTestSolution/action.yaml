@@ -10,6 +10,10 @@ inputs:
     required: true
     description: 'the version suffix'
     type: string
+  packoutdir:
+    required: true
+    description: 'pack output dir'
+    type: string
   github_token:
     description: 'github_token'
     required: true
@@ -30,3 +34,7 @@ runs:
     - name: 'dotnet test'
       shell: bash
       run: dotnet test "${{ inputs.solution }}"
+
+    - name: 'dotnet pack'
+      shell: bash
+      run: dotnet pack "${{ inputs.solution }}" --no-build --output "${{ inputs.packoutdir }}"
