@@ -20,12 +20,12 @@ runs:
     - name: 'dotnet build without version-suffix'
       shell: bash
       if: ${{ inputs.version-suffix  == '' }}
-      run: dotnet build "${{ inputs.solution }}" --configuration Release"
+      run: dotnet build "${{ inputs.solution }}" --configuration Release
 
     - name: 'dotnet build with version-suffix: ${{ inputs.version-suffix }}'
       shell: bash
       if: ${{ inputs.version-suffix != '' }} 
-      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }}"
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }}
 
     - name: 'dotnet test'
       shell: bash
