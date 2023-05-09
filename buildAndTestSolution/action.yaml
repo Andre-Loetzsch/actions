@@ -33,9 +33,14 @@ runs:
 
     - name: 'dotnet test'
       shell: bash
-
       run: dotnet test "${{ inputs.solution }}" --configuration Release --no-build
 
-    - name: 'dotnet pack'
+    - name: 'dotnet pack without version-suffix'
       shell: bash
-      run: dotnet pack "${{ inputs.solution }}" --configuration Release --no-build --output "${{ inputs.packoutdir }}"
+      if: ${{ inputs.version-suffix  == '' }}
+      run: dotnet pack "${{ inputs.solution }}" --configuration Release --output "${{ inputs.packoutdir }}"
+
+    - name: 'dotnet pack with version-suffix: ${{ inputs.version-suffix }}'
+      shell: bash
+      if: ${{ inputs.version-suffix != '' }} 
+      run: dotnet pack "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --output "${{ inputs.packoutdir }}"
