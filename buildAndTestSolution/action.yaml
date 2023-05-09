@@ -38,4 +38,4 @@ runs:
 
     - name: 'dotnet pack'
       shell: bash
-      run: dotnet pack "${{ inputs.solution }}" --no-build --output "${{ inputs.packoutdir }}"
+      run: dotnet pack "${{ inputs.solution }}" --configuration Release --no-build --output "${{ inputs.packoutdir }}"
