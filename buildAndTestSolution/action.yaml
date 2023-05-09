@@ -34,7 +34,7 @@ runs:
     - name: 'dotnet test'
       shell: bash
 
-      run: dotnet test "${{ inputs.solution }}" --no-build
+      run: dotnet test "${{ inputs.solution }}" --configuration Release --no-build
 
     - name: 'dotnet pack'
       shell: bash
