@@ -1,0 +1,18 @@
+name: pushNugetPackagesToNugetOrg
+description: 'pushed nuget packages to nuget'
+
+inputs:
+  packagedir:
+    required: true
+    description: 'package dir'
+    type: string
+  nuget_apikey:
+    description: 'nuget api key'
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: 'Push nuget packages'
+      shell: bash
+      run: dotnet nuget push "${{ inputs.packagedir }}\*.nupkg" --api-key "${{ inputs.nuget_apikey }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
