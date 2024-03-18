@@ -21,26 +21,31 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: 'dotnet build without version-suffix'
+   
+    - name: 'dotnet build to calculate versions'
       shell: bash
-      if: ${{ inputs.version-suffix  == '' }}
-      run: dotnet build "${{ inputs.solution }}" --configuration Release
-
-    - name: 'dotnet build with version-suffix: ${{ inputs.version-suffix }}'
-      shell: bash
-      if: ${{ inputs.version-suffix != '' }} 
-      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }}
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix dev
 
     - name: 'dotnet test'
       shell: bash
       run: dotnet test "${{ inputs.solution }}" --configuration Release --no-build
 
+    - name: 'dotnet build without version-suffix'
+      shell: bash
+      if: ${{ inputs.version-suffix  == '' }}
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --no-restore --property:versioningTask-disabled=true --property:NoWarn=OAVBT46
+
+    - name: 'dotnet build with version-suffix: ${{ inputs.version-suffix }}'
+      shell: bash
+      if: ${{ inputs.version-suffix != '' }} 
+      run: dotnet build "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --no-restore --property:versioningTask-disabled=true --property:NoWarn=OAVBT46
+
     - name: 'dotnet pack without version-suffix'
       shell: bash
       if: ${{ inputs.version-suffix  == '' }}
-      run: dotnet pack "${{ inputs.solution }}" --configuration Release --output "${{ inputs.packoutdir }}"
+      run: dotnet pack "${{ inputs.solution }}" --configuration Release --output "${{ inputs.packoutdir }}" --no-restore --property:versioningTask-disabled=true --property:NoWarn=OAVBT46
 
     - name: 'dotnet pack with version-suffix: ${{ inputs.version-suffix }}'
       shell: bash
       if: ${{ inputs.version-suffix != '' }} 
-      run: dotnet pack "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --output "${{ inputs.packoutdir }}"
+      run: dotnet pack "${{ inputs.solution }}" --configuration Release --version-suffix ${{ inputs.version-suffix }} --output "${{ inputs.packoutdir }}" --no-restore --property:versioningTask-disabled=true --property:NoWarn=OAVBT46
